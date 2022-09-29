@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+#cesta-carrito {
+    border: none;
+    font-size: 30px;
+    padding: 10px 20px;
+    transition: all .3s;
+  }
+  
+  #cesta-carrito:hover {
+    cursor: pointer;
+    color: white;
+  }
+
+  #logo {
+    height: auto;
+    width: auto;
+    max-width: 200px;
+    max-height: 200px;
+  }
+  
+  

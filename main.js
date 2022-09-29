@@ -8,7 +8,7 @@ const vinos =
         "uva": "Malbec",
         "bodega": "Bodega: Luigi Bosca",
         "img": "img/finca.png",
-        "precio": 910,
+        "precio": 55,
         "cantidad":1
     },
 
@@ -18,7 +18,7 @@ const vinos =
         "uva": "Malbec",
         "bodega": "Bodega: Luigi Bosca",
         "img": "img/bosca.png",
-        "precio": 1400,
+        "precio": 74,
         "cantidad":1
     },
 
@@ -28,7 +28,7 @@ const vinos =
         "uva": "Cabernet-Malbec",
         "bodega": "Bodega: Catena Zapata",
         "img": "img/dv.png",
-        "precio": 1800,
+        "precio": 89,
         "cantidad":1
     },
 
@@ -38,7 +38,7 @@ const vinos =
         "uva": "Malbec",
         "bodega": "Bodega: Catena Zapata",
         "img": "img/alamos.png",
-        "precio": 850,
+        "precio": 63,
         "cantidad":1
     },
 
@@ -48,7 +48,7 @@ const vinos =
         "uva": "Malbec",
         "bodega": "Bodega: Catena Zapata",
         "img": "img/nicasia.png",
-        "precio": 1050,
+        "precio": 69,
         "cantidad":1
     },
 
@@ -58,15 +58,21 @@ const vinos =
         "uva": "Malbec",
         "bodega": "Bodega: La Rural",
         "img": "img/trumpeter.png",
-        "precio": 1300,
+        "precio": 65,
         "cantidad":1
     }
 ];
 
 
+document.addEventListener("DOMContentLoaded", ()=>{
+
+    cargarCarritoLocalStorage();
+    imprimirCarrito();
+    imprimirVinos();
+});
 
 //creo un array vacio para ir llenando
-const carrito = []; 
+const carrito =  []; 
 
 //Creo una funcion para imprimir los productos de mi dase de datos (vinos) en pantalla.
 function imprimirVinos() {
@@ -90,7 +96,7 @@ function imprimirVinos() {
                 <h5 class="card-title">${v.nombre}</h5>
                 <h6 class="card-title">${v.uva}</h6>
                 <h6 class="card-title">${v.bodega}</h6>
-                <p>${v.precio}€</p>
+                <p>${v.precio} R$</p>
                 <button class="btn btn-primary" id="${v.id}">Añadir al carrito</button>
             </div>
         </div>
@@ -99,18 +105,32 @@ function imprimirVinos() {
         tienda.appendChild(vino); //anido el div vino dentro de la etiqueta tienda de html
 
         vino.querySelector('button').addEventListener('click', ()=>{ //selecciono la etiqueta button dentro de vino y me pongo a escuchar los clicks en ese boton
-            
+            agregar() // contador general
             agregarVinosAlCarrito(v.id); // invoco la function agregarVinosAlCarrito para que cuando escuche el click se ejecute la function
                   
         })
     }) 
 }
 
-
-
 imprimirVinos(); //invoco a la funcion para que se ejecute
 
+let contador = 0;
+let contadorCarrito = document.getElementById('contador-carrito')
+function agregar (){
+    contador++;
+    contadorCarrito.innerText = contador;
+    
+}
+
+function eliminar (){
+    contador--;
+    contadorCarrito.innerText = contador;
+}
+
+
+
 function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar vinos al array carrito. los voy a agregar por medio de su (id)
+
 
     let vino = vinos.find(vino => vino.id === id); //creo una nueva variable vino que por el scope no interfiere con la variable vino declarada en la function imprimirVino()
     // aplico metodo de filtrado find para que  me de la primera coincidencia con mi base de datos
@@ -123,24 +143,42 @@ function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar
     if (vinoEnCarrito){ 
         //si hay un vino vino en el carrito encuentra coincidencia y suma cantidad de a uno
         vinoEnCarrito.cantidad++;
+        
+        Swal.fire({
+            title: 'Excelente!',
+            text: 'Otra unidad de este vino se agrego correctamente al carrito',
+            imageUrl: 'img/carrito3.png',
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+          })
 
     } else{  // sino encuentra coincidencia queda en 1
         vino.cantidad = 1;
 
         carrito.push(vino); //agrego vino al carrito
-
+        
+        Swal.fire({
+            title: 'Excelente!',
+            text: 'El vino se agrego correctamente al carrito',
+            imageUrl: 'img/carrito3.png',
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+          })
     }
+    
 
     imprimirCarrito(); //invoco la function imprimirCarrito para que se ejecute cuando se agrega un producto al carrito
     calcularTotal() //invoco la funcion total para siempre calcular el total segun sume o reste vinos del carrito
-
+    guardarCarritoLocalStorage()
 }
 
 
 function imprimirCarrito (){ //creo la fuction para imprimir los vinos en el carrito de comprar cuando den click al button agregar al carrito.
 
-    const d = document;
-    let carritoPag = d.querySelector('#carrito');
+    const c = document;
+    let carritoPag = c.querySelector('#carrito');
 
     carritoPag.innerHTML = ''; // para limpiar el modal anterior (carrito) en caso de sumar mas productos e imprime la las cantidades de cada vino en una sola card por vino. para no repetir
 
@@ -162,7 +200,7 @@ function imprimirCarrito (){ //creo la fuction para imprimir los vinos en el car
                 <h5 class="card-title">${v.nombre}</h5>
                 <h6 class="card-title">${v.uva}</h6>
                 <h6 class="card-title">${v.bodega}</h6>
-                <p>${v.precio}€</p>
+                <p>${v.precio} R$</p>
                 <p>Cantidad: ${v.cantidad}</p> 
                 <button class="btn btn-danger">Eliminar</button>
             </div>
@@ -173,24 +211,47 @@ function imprimirCarrito (){ //creo la fuction para imprimir los vinos en el car
         vino.querySelector('button').addEventListener('click', ()=>{
             
             eliminarVinoDelCarrito(index) //invoco la funcion para que se ejecute simpre que den click al boton eliminar
-
         })
 
         carritoPag.appendChild(vino); //para anidar el div vino dentro del carrito en html
     })
+    
+    
+    
 }
 
 function eliminarVinoDelCarrito(index) {
 
     carrito[index].cantidad--;  //accede a la primera posición del array y resta de a uno
+    
+    Swal.fire({
+        title: 'Atención!',
+        text: 'Haz eliminado 1 unidad de este vino',
+        imageUrl: 'img/carrito3.png',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+      })
 
     if (carrito[index].cantidad === 0) { // cuando llegue a 0
 
         carrito.splice(index,1); // Se borra la card del carrito
+
+        Swal.fire({
+            title: 'Atención!',
+            text: 'Has eliminado este vino del carrito',
+            imageUrl: 'img/carrito3.png',
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+          })
     }
 
+    
     imprimirCarrito(); // invoco esta funcion para volver a imprimir el carrito con los cambios en las cantidades
     calcularTotal(); // invoco esta funcion para que reste del total siempre que se eliminen vinos del carrito
+    eliminar();
+    guardarCarritoLocalStorage()
 }
 
 function calcularTotal(){ // creo un funcion para calcular el valor total de vino en el carrito
@@ -204,6 +265,23 @@ function calcularTotal(){ // creo un funcion para calcular el valor total de vin
 
     const totalHtml = document.getElementById('total') //capturo de html la etiqueta con id total
 
-    totalHtml.innerHTML = `<h5>Total $ ${total}</h5>` //inserto la varible total declarada en la linea 203 dentro de la etiqueta total de html
+    totalHtml.innerHTML = `<h5>Total R$ ${total}</h5>` //inserto la varible total declarada en la linea 203 dentro de la etiqueta total de html
 
 }
+
+function guardarCarritoLocalStorage(){
+    localStorage.setItem("carrito",JSON.stringify(carrito));
+    localStorage.setItem("contador", JSON.stringify (contador))
+}
+
+function cargarCarritoLocalStorage(){
+    const carrito = localStorage.getItem("carrito");
+    
+    if(carrito){
+        carrito.push(...JSON.parse(carrito));
+    }
+}
+
+
+
+
