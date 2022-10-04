@@ -69,7 +69,7 @@ const vinos =
 //creo un array vacio para ir llenando
 const carrito =  []; 
 
-//Creo una funcion para imprimir los productos de mi dase de datos (vinos) en pantalla.
+//Creo una funcion para imprimir los productos de mi base de datos (vinos) en pantalla.
 function imprimirVinos() {
 
     const tienda = document.getElementById('tienda')  //capturo la etiqueta el id del html a donde voy a anidar los productos
@@ -133,19 +133,17 @@ function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar
     // obtengo la primera coincidenca de (vino.id) que sean iguales al (id) parametro de la function
 
     let vinoEnCarrito = carrito.find(vino => vino.id === id);
-    // creo otra variable y con find busco la primer coincidencia de (vinos.id) pero no con array carrito y sus respectivo (id).
+    // creo otra variable y con find busco la primer coincidencia de (vinos.id) pero  con array carrito y sus respectivo (id).
 
     if (vinoEnCarrito){ 
         //si hay un vino vino en el carrito encuentra coincidencia y suma cantidad de a uno
         vinoEnCarrito.cantidad++; //OPERADOR AVANZADO ++
         
         Swal.fire({
+            icon: 'success',
             title: 'Excelente!',
-            text: 'Otra unidad de este vino se agrego correctamente al carrito',
-            imageUrl: 'img/carrito3.png',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
+            text: `Otra unidad de ${vino.nombre} se agrego correctamente al carrito`,
+            timer: 1500
           })
 
     } else{  // sino encuentra coincidencia queda en 1
@@ -155,12 +153,10 @@ function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar
         }); //agrego vino al carrito
         
         Swal.fire({
+            icon: 'success',
             title: 'Excelente!',
-            text: 'El vino se agrego correctamente al carrito',
-            imageUrl: 'img/carrito3.png',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
+            text: `1 unidad de ${vino.nombre} se agrego correctamente al carrito`,
+            timer: 1500
           })
     }
     
@@ -218,28 +214,25 @@ function imprimirCarrito (){ //creo la fuction para imprimir los vinos en el car
 
 function eliminarVinoDelCarrito(index) {
 
+
     carrito[index].cantidad--;  //accede a la primera posición del array y resta de a uno
     //OPERADOR AVANZADO --
     Swal.fire({
-        title: 'Atención!',
-        text: 'Haz eliminado 1 unidad de este vino',
-        imageUrl: 'img/carrito3.png',
-        imageWidth: 400,
-        imageHeight: 200,
-        imageAlt: 'Custom image',
-      })
+        icon: 'success',
+        title: 'Eliminado!',
+        text: 'Se elimino 1 unidad de este vino',
+        timer: 1500
+    })
 
     if (carrito[index].cantidad === 0) { // cuando llegue a 0
 
         carrito.splice(index,1); // Se borra la card del carrito
 
         Swal.fire({
-            title: 'Atención!',
-            text: 'Has eliminado este vino del carrito',
-            imageUrl: 'img/carrito3.png',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
+            icon: 'success',
+            title: 'Eliminado!',
+            text: 'Se elimino este vino del carrito',
+            timer: 1500
           })
     }
 
