@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     
     cargarCarritoLocalStorage();
     imprimirCarrito();
-    // imprimirVinos();
+    
 });
 
 //array de objetos con todos los vinos
@@ -10,7 +10,7 @@ const vinos =
 [
     {
         "id": 1,
-        "nombre": "Finca La Linda",
+        "nombre": "FINCA LA LINDA",
         "uva": "Malbec",
         "bodega": "Bodega: Luigi Bosca",
         "img": "img/finca.png",
@@ -19,7 +19,7 @@ const vinos =
 
     {
         "id": 2,
-        "nombre": "Luigi Bosca",
+        "nombre": "LUIGI BOSCA",
         "uva": "Malbec",
         "bodega": "Bodega: Luigi Bosca",
         "img": "img/bosca.png",
@@ -28,7 +28,7 @@ const vinos =
 
     {
         "id": 3,
-        "nombre": "DV Catena",
+        "nombre": "DV CATENA",
         "uva": "Cabernet-Malbec",
         "bodega": "Bodega: Catena Zapata",
         "img": "img/dv.png",
@@ -37,7 +37,7 @@ const vinos =
 
     {
         "id": 4,
-        "nombre": "Alamos",
+        "nombre": "ALAMOS",
         "uva": "Malbec",
         "bodega": "Bodega: Catena Zapata",
         "img": "img/alamos.png",
@@ -46,7 +46,7 @@ const vinos =
 
     {
         "id": 5,
-        "nombre": "Nicasia",
+        "nombre": "NICASIA",
         "uva": "Malbec",
         "bodega": "Bodega: Catena Zapata",
         "img": "img/nicasia.png",
@@ -55,7 +55,7 @@ const vinos =
 
     {
         "id": 6,
-        "nombre": "Trumpeter",
+        "nombre": "TRUMPETER",
         "uva": "Malbec",
         "bodega": "Bodega: La Rural",
         "img": "img/trumpeter.png",
@@ -65,6 +65,7 @@ const vinos =
 
 //creo un array vacio para ir llenando
 const carrito =  []; 
+
 
 //Creo una funcion para imprimir los productos de mi dase de datos (vinos) en pantalla.
 function imprimirVinos() {
@@ -122,12 +123,10 @@ function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar
         vinoEnCarrito.cantidad++; //OPERADOR AVANZADO ++
         
         Swal.fire({
+            icon: 'success',
             title: 'Excelente!',
-            text: 'Otra unidad de este vino se agrego correctamente al carrito',
-            imageUrl: 'img/carrito3.png',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
+            text: `Otra unidad de ${vino.nombre} se agrego correctamente al carrito`,
+            timer: 2000
           })
 
     } else{  // sino encuentra coincidencia queda en 1
@@ -137,12 +136,10 @@ function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar
         }); //agrego vino al carrito
         
         Swal.fire({
+            icon: 'success',
             title: 'Excelente!',
-            text: 'El vino se agrego correctamente al carrito',
-            imageUrl: 'img/carrito3.png',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
+            text: `1 unidad de ${vino.nombre} se agrego correctamente al carrito`,
+            timer:2000
           })
     }
     
@@ -152,34 +149,32 @@ function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar
     guardarCarritoLocalStorage()
 }
 
+
+
 function eliminarVinoDelCarrito(index) {
 
     carrito[index].cantidad--;  //accede a la primera posición del array y resta de a uno
     //OPERADOR AVANZADO --
     Swal.fire({
+        icon: 'warning',
         title: 'Atención!',
-        text: 'Haz eliminado 1 unidad de este vino',
-        imageUrl: 'img/carrito3.png',
-        imageWidth: 400,
-        imageHeight: 200,
-        imageAlt: 'Custom image',
+        text: `Haz eliminado 1 unidad de ${carrito[index].nombre}`,
+        timer: 2000
       })
 
     if (carrito[index].cantidad === 0) { // cuando llegue a 0
-
+      
         carrito.splice(index,1); // Se borra la card del carrito
 
         Swal.fire({
+            icon: 'warning',
             title: 'Atención!',
-            text: 'Has eliminado este vino del carrito',
-            imageUrl: 'img/carrito3.png',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
+            text: `Has eliminado ${ultimoProducto} del carrito`,
+            timer: 2000
           })
     }
 
-    
+
     imprimirCarrito(); // invoco esta funcion para volver a imprimir el carrito con los cambios en las cantidades
     calcularTotal(); // invoco esta funcion para que reste del total siempre que se eliminen vinos del carrito
     updateContador();
@@ -221,7 +216,9 @@ function imprimirCarrito (){ //creo la fuction para imprimir los vinos en el car
         // escucho el evento click del boton eliminar dentro de vino 
         vino.querySelector('button').addEventListener('click', ()=>{
             
+            ultimoProducto = nombre;
             eliminarVinoDelCarrito(index) //invoco la funcion para que se ejecute simpre que den click al boton eliminar
+
         })
 
         carritoPag.appendChild(vino); //para anidar el div vino dentro del carrito en html
@@ -230,7 +227,7 @@ function imprimirCarrito (){ //creo la fuction para imprimir los vinos en el car
     
     
 }
-
+let ultimoProducto;
 function calcularTotal(){ // creo un funcion para calcular el valor total de vino en el carrito
 
     let total = 0; // creo una variable acumulador que comienza en 0
@@ -251,8 +248,8 @@ function updateContador() {
     let totalProductos = 0;
 
     if (carritoStorage !== null) {
-        JSON.parse(carritoStorage).forEach(el => {
-            totalProductos += el.cantidad;  
+        JSON.parse(carritoStorage).forEach((vino) => {
+            totalProductos += vino.cantidad;  
         });    
         localStorage.setItem("contador",totalProductos);
     }
