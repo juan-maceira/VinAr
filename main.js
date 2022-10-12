@@ -5,72 +5,75 @@ document.addEventListener("DOMContentLoaded", ()=>{
     
 });
 
+
 //array de objetos con todos los vinos
-const vinos =
-[
-    {
-        "id": 1,
-        "nombre": "FINCA LA LINDA",
-        "uva": "Malbec",
-        "bodega": "Bodega: Luigi Bosca",
-        "img": "img/finca.png",
-        "precio": 55,
-    },
+// const vinos =
+// [
+//     {
+//         "id": 1,
+//         "nombre": "FINCA LA LINDA",
+//         "uva": "Malbec",
+//         "bodega": "Bodega: Luigi Bosca",
+//         "img": "img/finca.png",
+//         "precio": 55,
+//     },
 
-    {
-        "id": 2,
-        "nombre": "LUIGI BOSCA",
-        "uva": "Malbec",
-        "bodega": "Bodega: Luigi Bosca",
-        "img": "img/bosca.png",
-        "precio": 74,
-    },
+//     {
+//         "id": 2,
+//         "nombre": "LUIGI BOSCA",
+//         "uva": "Malbec",
+//         "bodega": "Bodega: Luigi Bosca",
+//         "img": "img/bosca.png",
+//         "precio": 74,
+//     },
 
-    {
-        "id": 3,
-        "nombre": "DV CATENA",
-        "uva": "Cabernet-Malbec",
-        "bodega": "Bodega: Catena Zapata",
-        "img": "img/dv.png",
-        "precio": 89,
-    },
+//     {
+//         "id": 3,
+//         "nombre": "DV CATENA",
+//         "uva": "Cabernet-Malbec",
+//         "bodega": "Bodega: Catena Zapata",
+//         "img": "img/dv.png",
+//         "precio": 89,
+//     },
 
-    {
-        "id": 4,
-        "nombre": "ALAMOS",
-        "uva": "Malbec",
-        "bodega": "Bodega: Catena Zapata",
-        "img": "img/alamos.png",
-        "precio": 63,
-    },
+//     {
+//         "id": 4,
+//         "nombre": "ALAMOS",
+//         "uva": "Malbec",
+//         "bodega": "Bodega: Catena Zapata",
+//         "img": "img/alamos.png",
+//         "precio": 63,
+//     },
 
-    {
-        "id": 5,
-        "nombre": "NICASIA",
-        "uva": "Malbec",
-        "bodega": "Bodega: Catena Zapata",
-        "img": "img/nicasia.png",
-        "precio": 69,
-    },
+//     {
+//         "id": 5,
+//         "nombre": "NICASIA",
+//         "uva": "Malbec",
+//         "bodega": "Bodega: Catena Zapata",
+//         "img": "img/nicasia.png",
+//         "precio": 69,
+//     },
 
-    {
-        "id": 6,
-        "nombre": "TRUMPETER",
-        "uva": "Malbec",
-        "bodega": "Bodega: La Rural",
-        "img": "img/trumpeter.png",
-        "precio": 65,
-    }
-];
+//     {
+//         "id": 6,
+//         "nombre": "TRUMPETER",
+//         "uva": "Malbec",
+//         "bodega": "Bodega: La Rural",
+//         "img": "img/trumpeter.png",
+//         "precio": 65,
+//     }
+// ];
 
 //creo un array vacio para ir llenando
 const carrito =  []; 
 
 
 //Creo una funcion para imprimir los productos de mi dase de datos (vinos) en pantalla.
-function imprimirVinos() {
+async function imprimirVinos() {
 
     const tienda = document.getElementById('tienda')  //capturo la etiqueta el id del html a donde voy a anidar los productos
+    const response = await fetch('/vinos.json');
+    const vinos = await response.json();
 
     vinos.forEach(({img, nombre, uva, bodega, precio, id})=> { //recorro el array de vinos para obtener todos los objetos
 
@@ -107,8 +110,9 @@ function imprimirVinos() {
 
 imprimirVinos(); //invoco a la funcion para que se ejecute
 
-function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar vinos al array carrito. los voy a agregar por medio de su (id)
-
+async function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar vinos al array carrito. los voy a agregar por medio de su (id)
+    const response = await fetch('/vinos.json');
+    const vinos = await response.json();
 
     let vino = vinos.find(vino => vino.id === id); //creo una nueva variable vino que por el scope no interfiere con la variable vino declarada en la function imprimirVino()
     // aplico metodo de filtrado find para que  me de la primera coincidencia con mi base de datos

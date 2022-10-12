@@ -1,0 +1,55 @@
+[
+    {
+        "id": 1,
+        "nombre": "FINCA LA LINDA",
+        "uva": "Malbec",
+        "bodega": "Bodega: Luigi Bosca",
+        "img": "img/finca.png",
+        "precio": 55
+    },
+
+    {
+        "id": 2,
+        "nombre": "LUIGI BOSCA",
+        "uva": "Malbec",
+        "bodega": "Bodega: Luigi Bosca",
+        "img": "img/bosca.png",
+        "precio": 74
+    },
+
+    {
+        "id": 3,
+        "nombre": "DV CATENA",
+        "uva": "Cabernet-Malbec",
+        "bodega": "Bodega: Catena Zapata",
+        "img": "img/dv.png",
+        "precio": 89
+    },
+
+    {
+        "id": 4,
+        "nombre": "ALAMOS",
+        "uva": "Malbec",
+        "bodega": "Bodega: Catena Zapata",
+        "img": "img/alamos.png",
+        "precio": 63
+    },
+
+    {
+        "id": 5,
+        "nombre": "NICASIA",
+        "uva": "Malbec",
+        "bodega": "Bodega: Catena Zapata",
+        "img": "img/nicasia.png",
+        "precio": 69
+    },
+
+    {
+        "id": 6,
+        "nombre": "TRUMPETER",
+        "uva": "Malbec",
+        "bodega": "Bodega: La Rural",
+        "img": "img/trumpeter.png",
+        "precio": 65
+    }
+]
