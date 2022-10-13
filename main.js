@@ -72,7 +72,7 @@ const carrito =  [];
 async function imprimirVinos() {
 
     const tienda = document.getElementById('tienda')  //capturo la etiqueta el id del html a donde voy a anidar los productos
-    const response = await fetch('/vinos.json');
+    const response = await fetch('vinos.json');
     const vinos = await response.json();
 
     vinos.forEach(({img, nombre, uva, bodega, precio, id})=> { //recorro el array de vinos para obtener todos los objetos
@@ -111,7 +111,7 @@ async function imprimirVinos() {
 imprimirVinos(); //invoco a la funcion para que se ejecute
 
 async function agregarVinosAlCarrito(id) { // creo una funcion para comenzar a agregar vinos al array carrito. los voy a agregar por medio de su (id)
-    const response = await fetch('/vinos.json');
+    const response = await fetch('vinos.json');
     const vinos = await response.json();
 
     let vino = vinos.find(vino => vino.id === id); //creo una nueva variable vino que por el scope no interfiere con la variable vino declarada en la function imprimirVino()
